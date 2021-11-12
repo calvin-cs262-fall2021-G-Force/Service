@@ -1,0 +1,19 @@
+{
+  "name": "cs262-webservice",
+  "version": "1.0.0",
+  "description": "CS 262 Webservice",
+  "main": "knightBitesService.js",
+  "author": "kvlinden",
+  "license": "ISC",
+  "engines": {
+    "node": "12.x"
+  },
+  "scripts": {
+    "start": "node knightBitesService.js",
+    "start-direct": "node knightBitesDirect.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "pg-promise": "^10.7.1"
+  }
+}
