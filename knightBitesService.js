@@ -38,6 +38,7 @@ router.use(express.json());
 
 router.get("/", readHelloMessage);
 router.get("/posts", readPosts);
+router.post('/posts', createPost);
 router.get("/students", readStudents);
 router.get("/student/:email", readStudent);
 router.get("/restaurants", readRestaurants);
@@ -78,6 +79,16 @@ function readPosts(req, res, next) {
         .catch(err => {
             next(err);
         })
+}
+
+function createPost(req, res, next) {
+    db.one('INSERT INTO Post(postTitle, post, postTime, studentEmail) VALUES (${posttitle}, ${post}, ${posttime}, \'dp34\') RETURNING studentEmail', req.body)
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            next(err);
+        });
 }
 
 function readStudents(req, res, next) {
