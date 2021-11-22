@@ -18,7 +18,7 @@ CREATE TABLE Restaurant (
 	openingTime time,
 	closingTime time,
 	priceRange int, -- Three tiers of prices ranging from 1 through 3
-	discount varchar(30)
+	discount varchar(80)
 	);
 
 CREATE TABLE Post (
