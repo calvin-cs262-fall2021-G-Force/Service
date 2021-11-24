@@ -72,7 +72,7 @@ function readHelloMessage(req, res) {
 }
 
 function readPosts(req, res, next) {
-    db.many("SELECT * FROM Post")
+    db.many("SELECT * FROM Post ORDER BY posttime DESC")
         .then(data => {
             res.send(data);
         })
