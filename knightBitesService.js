@@ -82,7 +82,7 @@ function readPosts(req, res, next) {
 }
 
 function createPost(req, res, next) {
-    db.one('INSERT INTO Post(postTitle, post, postTime, studentEmail) VALUES (${posttitle}, ${post}, ${posttime}, \'dp34\') RETURNING studentEmail', req.body)
+    db.one('INSERT INTO Post(postTitle, post, postTime, studentEmail) VALUES (${posttitle}, ${post}, ${posttime}, ${studentemail}) RETURNING studentemail', req.body)
         .then(data => {
             res.send(data);
         })
