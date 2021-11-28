@@ -38,9 +38,10 @@ router.use(express.json());
 
 router.get("/", readHelloMessage);
 router.get("/posts", readPosts);
+router.get("/posts/:id", readPost);
 router.post('/posts', createPost);
 router.get("/students", readStudents);
-router.get("/student/:email", readStudent);
+router.get("/students/:email", readStudent);
 router.get("/restaurants", readRestaurants);
 // router.put("/players/:id", updatePlayer);
 // router.post('/players', createPlayer);
@@ -79,6 +80,16 @@ function readPosts(req, res, next) {
         .catch(err => {
             next(err);
         })
+}
+
+function readPost(req, res, next) {
+    db.oneOrNone('SELECT * FROM Post WHERE id=${id}', req.params)
+        .then(data => {
+            returnDataOr404(res, data);
+        })
+        .catch(err => {
+            next(err);
+        });
 }
 
 function createPost(req, res, next) {
