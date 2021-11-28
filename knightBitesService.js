@@ -44,7 +44,7 @@ router.get("/student/:email", readStudent);
 router.get("/restaurants", readRestaurants);
 // router.put("/players/:id", updatePlayer);
 // router.post('/players', createPlayer);
-// router.delete('/players/:id', deletePlayer);
+router.delete('/posts/:id', deletePost);
 
 app.use(router);
 app.use(errorHandler);
@@ -141,8 +141,8 @@ function createPlayer(req, res, next) {
         });
 }
 
-function deletePlayer(req, res, next) {
-    db.oneOrNone('DELETE FROM Player WHERE id=${id} RETURNING id', req.params)
+function deletePost(req, res, next) {
+    db.oneOrNone('DELETE FROM Post WHERE id=${id} RETURNING id', req.params)
         .then(data => {
             returnDataOr404(res, data);
         })

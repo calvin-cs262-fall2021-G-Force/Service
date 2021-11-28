@@ -12,7 +12,7 @@ CREATE TABLE Student (
 	);
 
 CREATE TABLE Restaurant (
-	ID int PRIMARY KEY,
+	ID SERIAL PRIMARY KEY,
 	name varchar(50),
 	address varchar (60) NOT NULL,
 	openingTime time,
@@ -22,6 +22,7 @@ CREATE TABLE Restaurant (
 	);
 
 CREATE TABLE Post (
+	ID SERIAL PRIMARY KEY
 	studentEmail varchar(30) REFERENCES Student(email),
 	restaurantID int,
 	FOREIGN KEY (restaurantID) REFERENCES Restaurant(ID),
@@ -29,8 +30,14 @@ CREATE TABLE Post (
 	post varchar(150),
 	postTime timestamp,
 	meetupTime timestamp,
-	PRIMARY KEY(StudentEmail, postTime)
 	);
+
+CREATE TABLE EventAttendee (
+	postID int,
+	FOREIGN KEY (postID) REFERENCES Post(ID),
+	studentEmail varchar(30),
+	FOREIGN KEY (studentEmail) REFERENCES Student(email),
+);
 
 -- Allow Students to select data from the tables
 GRANT SELECT ON Student TO PUBLIC;
