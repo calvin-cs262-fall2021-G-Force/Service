@@ -22,21 +22,22 @@ CREATE TABLE Restaurant (
 	);
 
 CREATE TABLE Post (
-	ID SERIAL PRIMARY KEY
-	studentEmail varchar(30) REFERENCES Student(email),
+	ID SERIAL PRIMARY KEY,
+	studentEmail varchar(30),
+	FOREIGN KEY (studentEmail) REFERENCES Student(email),
 	restaurantID int,
 	FOREIGN KEY (restaurantID) REFERENCES Restaurant(ID),
 	postTitle varchar (30),
 	post varchar(150),
 	postTime timestamp,
-	meetupTime timestamp,
-	);
+	meetupTime timestamp
+);
 
 CREATE TABLE EventAttendee (
 	postID int,
 	FOREIGN KEY (postID) REFERENCES Post(ID),
 	studentEmail varchar(30),
-	FOREIGN KEY (studentEmail) REFERENCES Student(email),
+	FOREIGN KEY (studentEmail) REFERENCES Student(email)
 );
 
 -- Allow Students to select data from the tables
@@ -69,5 +70,5 @@ INSERT INTO Restaurant VALUES (17, 'Bitter End Coffehouse', '752 Fulton St W, Gr
 
 
 
-INSERT INTO Post VALUES ('bw12', 1 , 'Wanna have lunch at Johnny''s?','I am going to Johnny''s with my friends in a bit. You can join if you want to','2021-10-31 10:23:54', '2021-11-02 10:30');
-INSERT INTO Post VALUES ('ck23', 2 , 'NEED COFFEE','I need to get coffee NOW! Anybody wanna join me?','2021-10-28 10:30', '2021-10-31 12:25');
+INSERT INTO Post VALUES (1, 'bw12', 1 , 'Wanna have lunch at Johnny''s?','I am going to Johnny''s with my friends in a bit. You can join if you want to','2021-10-31 10:23:54', '2021-11-02 10:30');
+INSERT INTO Post VALUES (2, 'ck23', 2 , 'NEED COFFEE','I need to get coffee NOW! Anybody wanna join me?','2021-10-28 10:30', '2021-10-31 12:25');
