@@ -8,7 +8,9 @@ CREATE TABLE Student (
 	email varchar(30) PRIMARY KEY,
 	firstName varchar(50) NOT NULL,
 	lastName varchar(50),
-	bio varchar(150)
+	bio varchar(150),
+	icon varchar(50),
+	year varchar(50)
 	);
 
 CREATE TABLE Restaurant (
@@ -38,11 +40,11 @@ GRANT SELECT ON Restaurant TO PUBLIC;
 GRANT SELECT ON Post TO PUBLIC;
 
 -- Add sample records
-INSERT INTO Student VALUES ('bw12', 'Bruce', 'Wayne', 'I am vengance'); 
-INSERT INTO Student VALUES ('ck23', 'Clark', 'Kent', 'Up, up, and away!');
-INSERT INTO Student VALUES ('dp34', 'Diana', 'Prince', 'Fighting doesn''t make you a hero');
+INSERT INTO Student VALUES ('bw12', 'Bruce', 'Wayne', 'I am vengance', 'bug-outline', 'sophomore'); 
+INSERT INTO Student VALUES ('ck23', 'Clark', 'Kent', 'Up, up, and away!', 'rocket-outline', 'junior');
+INSERT INTO Student VALUES ('dp34', 'Diana', 'Prince', 'Fighting doesn''t make you a hero', 'pulse-outline', 'senior');
 
-INSERT INTO Restaurant VALUES (1,'Uccelo''s Ristorante', '2630 E Beltline Ave SE, Grand Rapids, MI 49546', '11:00', '23:00', 1, '15% off');
+INSERT INTO Restaurant VALUES (1,'Uccello''s Ristorante', '2630 E Beltline Ave SE, Grand Rapids, MI 49546', '11:00', '23:00', 1, '15% off');
 INSERT INTO Restaurant VALUES (2, 'Anna''s House', '2409 E Beltline Ave SE, Grand Rapids, MI 49546', '06:00', '15:00', 1, '10% off till 2pm');
 INSERT INTO Restaurant VALUES (3, 'IHOP', '5039, 28th Street SE, MI 49546', '6:00', '22:00', 2, '20% off');
 INSERT INTO Restaurant VALUES (4, 'Papa Johns', '4236 Kalamazoo Ave SE, Grand Rapids, MI 49508', '08:00', '23:00', 3, 'Large 1 Toppings go for $6.99 and Large 3 Toppings go for $10');
@@ -58,7 +60,7 @@ INSERT INTO Restaurant VALUES (13, 'Cafe Boba', '4314 Division Ave S, Kentwood, 
 INSERT INTO Restaurant VALUES (14, 'Old Chicago', '3333 28th St SE Ste 1, Grand Rapids, MI 49512', '11:00', '22:00', 2, '$5 off on an order of $20 or more');
 INSERT INTO Restaurant VALUES (15, 'Tallarico''s Boardwalk Subs', '3083 Broadmoor Ave SE, Kentwood, MI 49512', '10:30', '15:00', 1, '15% off');
 INSERT INTO Restaurant VALUES (16, 'Panda Express', '3170 28th St SE, Kentwood, MI 49508', '10:30', '21:00', 1, '20% off');
-INSERT INTO Restaurant VALUES (17, 'Bitter End Coffehouse', '752 Fulton St W, Grand Rapids, MI 49504', '01:00', '24:00', 1, '10% off');
+INSERT INTO Restaurant VALUES (17, 'Bitter End Coffeehouse', '752 Fulton St W, Grand Rapids, MI 49504', '01:00', '24:00', 1, '10% off');
 
 
 
