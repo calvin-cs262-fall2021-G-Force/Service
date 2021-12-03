@@ -43,7 +43,8 @@ router.post("/posts", createPost);
 router.get("/students", readStudents);
 router.get("/students/:email", readStudent);
 router.get("/restaurants", readRestaurants);
-router.get("/attendee/:postid", createAttendee);
+router.get("/attendees/:postid", createAttendee);
+router.get("/attendees/:postid", readAttendees);
 // router.put("/players/:id", updatePlayer);
 // router.post('/players', createPlayer);
 router.delete("/posts/:id", deletePost);
@@ -113,6 +114,16 @@ function createAttendee(req, res, next) {
   )
     .then((data) => {
       res.send(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
+}
+
+function readAttendees(req, res, next) {
+  db.oneOrNone("SELECT * FROM EventAttendee WHERE postid=${postid}", req.params)
+    .then((data) => {
+      returnDataOr404(res, data);
     })
     .catch((err) => {
       next(err);
