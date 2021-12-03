@@ -43,7 +43,7 @@ router.post("/posts", createPost);
 router.get("/students", readStudents);
 router.get("/students/:email", readStudent);
 router.get("/restaurants", readRestaurants);
-router.get("/attendee/:postid", createAttendee);
+router.get("/attendees/:postid", createAttendee);
 router.get("/students/:postid", readAttendees);
 // router.put("/players/:id", updatePlayer);
 // router.post('/players', createPlayer);
