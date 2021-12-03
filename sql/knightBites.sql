@@ -2,15 +2,17 @@
 DROP TABLE IF EXISTS Post CASCADE;
 DROP TABLE IF EXISTS Student CASCADE;
 DROP TABLE IF EXISTS Restaurant CASCADE;
+DROP TABLE IF EXISTS EventAttendee CASCADE;
 
 -- Create the schema
 CREATE TABLE Student (
 	email varchar(30) PRIMARY KEY,
+	password varchar(50),
 	firstName varchar(50) NOT NULL,
 	lastName varchar(50),
+	year varchar(50),
 	bio varchar(150),
-	icon varchar(50),
-	year varchar(50)
+	icon varchar(50)
 	);
 
 CREATE TABLE Restaurant (
@@ -46,11 +48,12 @@ CREATE TABLE EventAttendee (
 GRANT SELECT ON Student TO PUBLIC;
 GRANT SELECT ON Restaurant TO PUBLIC;
 GRANT SELECT ON Post TO PUBLIC;
+GRANT SELECT ON EventAttendee TO PUBLIC;
 
 -- Add sample records
-INSERT INTO Student VALUES ('bw12', 'Bruce', 'Wayne', 'I am vengance', 'bug-outline', 'sophomore'); 
-INSERT INTO Student VALUES ('ck23', 'Clark', 'Kent', 'Up, up, and away!', 'rocket-outline', 'junior');
-INSERT INTO Student VALUES ('dp34', 'Diana', 'Prince', 'Fighting doesn''t make you a hero', 'pulse-outline', 'senior');
+INSERT INTO Student VALUES ('bw12', 'pw12', 'Bruce', 'Wayne', 'Sophomore', 'I am vengance', 'bug-outline'); 
+INSERT INTO Student VALUES ('ck23', 'pw23', 'Clark', 'Kent', 'Junior', 'Up, up, and away!', 'rocket-outline');
+INSERT INTO Student VALUES ('dp34', 'pw34', 'Diana', 'Prince', 'Senior','Fighting doesn''t make you a hero', 'pulse-outline');
 
 INSERT INTO Restaurant VALUES (1,'Uccello''s Ristorante', '2630 E Beltline Ave SE, Grand Rapids, MI 49546', '11:00', '23:00', 1, '15% off');
 INSERT INTO Restaurant VALUES (2, 'Anna''s House', '2409 E Beltline Ave SE, Grand Rapids, MI 49546', '06:00', '15:00', 1, '10% off till 2pm');
@@ -70,7 +73,9 @@ INSERT INTO Restaurant VALUES (15, 'Tallarico''s Boardwalk Subs', '3083 Broadmoo
 INSERT INTO Restaurant VALUES (16, 'Panda Express', '3170 28th St SE, Kentwood, MI 49508', '10:30', '21:00', 1, '20% off');
 INSERT INTO Restaurant VALUES (17, 'Bitter End Coffeehouse', '752 Fulton St W, Grand Rapids, MI 49504', '01:00', '24:00', 1, '10% off');
 
-
-
 INSERT INTO Post VALUES (1, 'bw12', 1 , 'Wanna have lunch at Johnny''s?','I am going to Johnny''s with my friends in a bit. You can join if you want to','2021-10-31 10:23:54', '2021-11-02 10:30');
-INSERT INTO Post VALUES (2, 'ck23', 2 , 'NEED COFFEE','I need to get coffee NOW! Anybody wanna join me?','2021-10-28 10:30', '2021-10-31 12:25');
+INSERT INTO Post VALUES (2, 'ck23', 2 , 'Lunch at Culvers','I need to get coffee NOW! Anybody wanna join me?','2021-10-28 10:30', '2021-10-31 12:25');
+
+INSERT INTO EventAttendee VALUES (1, 'ck23');
+INSERT INTO EventAttendee VALUES (1, 'dp34');
+INSERT INTO EventAttendee VALUES (2, 'bw12');

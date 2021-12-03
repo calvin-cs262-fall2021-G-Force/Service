@@ -19,18 +19,18 @@
  */
 
 // Set up the database connection.
-const pgp = require('pg-promise')();
+const pgp = require("pg-promise")();
 const db = pgp({
-    host: process.env.DB_SERVER,
-    port: process.env.DB_PORT,
-    database: process.env.DB_USER,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD
+  host: process.env.DB_SERVER,
+  port: process.env.DB_PORT,
+  database: process.env.DB_USER,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
 });
 
 // Configure the server and its routes.
 
-const express = require('express');
+const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
 const router = express.Router();
@@ -39,13 +39,14 @@ router.use(express.json());
 router.get("/", readHelloMessage);
 router.get("/posts", readPosts);
 router.get("/posts/:id", readPost);
-router.post('/posts', createPost);
+router.post("/posts", createPost);
 router.get("/students", readStudents);
 router.get("/students/:email", readStudent);
 router.get("/restaurants", readRestaurants);
+router.get("/attendee/:postid", createAttendee);
 // router.put("/players/:id", updatePlayer);
 // router.post('/players', createPlayer);
-router.delete('/posts/:id', deletePost);
+router.delete("/posts/:id", deletePost);
 
 app.use(router);
 app.use(errorHandler);
@@ -54,110 +55,132 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 // Implement the CRUD operations.
 
 function errorHandler(err, req, res) {
-    if (app.get('env') === "development") {
-        console.log(err);
-    }
-    res.sendStatus(err.status || 500);
+  if (app.get("env") === "development") {
+    console.log(err);
+  }
+  res.sendStatus(err.status || 500);
 }
 
 function returnDataOr404(res, data) {
-    if (data == null) {
-        res.sendStatus(404);
-    } else {
-        res.send(data);
-    }
+  if (data == null) {
+    res.sendStatus(404);
+  } else {
+    res.send(data);
+  }
 }
 
 function readHelloMessage(req, res) {
-    res.send('Hello, Knights! Welcome to Knight Bites!');
+  res.send("Hello, Knights! Welcome to Knight Bites!");
 }
 
 function readPosts(req, res, next) {
-    db.many("SELECT * FROM Post ORDER BY posttime DESC")
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
-            next(err);
-        })
+  db.many("SELECT * FROM Post ORDER BY posttime DESC")
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
 }
 
 function readPost(req, res, next) {
-    db.oneOrNone('SELECT * FROM Post WHERE id=${id}', req.params)
-        .then(data => {
-            returnDataOr404(res, data);
-        })
-        .catch(err => {
-            next(err);
-        });
+  db.oneOrNone("SELECT * FROM Post WHERE id=${id}", req.params)
+    .then((data) => {
+      returnDataOr404(res, data);
+    })
+    .catch((err) => {
+      next(err);
+    });
 }
 
 function createPost(req, res, next) {
-    db.one('INSERT INTO Post(postTitle, post, postTime, studentEmail) VALUES (${posttitle}, ${post}, ${posttime}, ${studentemail}) RETURNING studentemail', req.body)
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
-            next(err);
-        });
+  db.one(
+    "INSERT INTO Post(postTitle, post, postTime, studentEmail) VALUES (${posttitle}, ${post}, ${posttime}, ${studentemail}) RETURNING studentemail",
+    req.body
+  )
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
+}
+
+function createAttendee(req, res, next) {
+  db.one(
+    "INSERT INTO EventAttendee(postid, studentEmail) VALUES (${postid}, ${studentemail}) RETURNING studentemail",
+    req.body
+  )
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
 }
 
 function readStudents(req, res, next) {
-    db.many("SELECT * FROM Student")
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
-            next(err);
-        })
+  db.many("SELECT * FROM Student")
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
 }
 
 function readRestaurants(req, res, next) {
-    db.many("SELECT * FROM Restaurant")
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
-            next(err);
-        })
+  db.many("SELECT * FROM Restaurant")
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
 }
 
 function readStudent(req, res, next) {
-    db.oneOrNone('SELECT * FROM Student WHERE email=${email}', req.params)
-        .then(data => {
-            returnDataOr404(res, data);
-        })
-        .catch(err => {
-            next(err);
-        });
+  db.oneOrNone("SELECT * FROM Student WHERE email=${email}", req.params)
+    .then((data) => {
+      returnDataOr404(res, data);
+    })
+    .catch((err) => {
+      next(err);
+    });
 }
 
 function updatePlayer(req, res, next) {
-    db.oneOrNone('UPDATE Player SET email=${body.email}, name=${body.name} WHERE id=${params.id} RETURNING id', req)
-        .then(data => {
-            returnDataOr404(res, data);
-        })
-        .catch(err => {
-            next(err);
-        });
+  db.oneOrNone(
+    "UPDATE Player SET email=${body.email}, name=${body.name} WHERE id=${params.id} RETURNING id",
+    req
+  )
+    .then((data) => {
+      returnDataOr404(res, data);
+    })
+    .catch((err) => {
+      next(err);
+    });
 }
 
 function createPlayer(req, res, next) {
-    db.one('INSERT INTO Player(email, name) VALUES (${email}, ${name}) RETURNING id', req.body)
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
-            next(err);
-        });
+  db.one(
+    "INSERT INTO Player(email, name) VALUES (${email}, ${name}) RETURNING id",
+    req.body
+  )
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
 }
 
 function deletePost(req, res, next) {
-    db.oneOrNone('DELETE FROM Post WHERE id=${id} RETURNING id', req.params)
-        .then(data => {
-            returnDataOr404(res, data);
-        })
-        .catch(err => {
-            next(err);
-        });
+  db.oneOrNone("DELETE FROM Post WHERE id=${id} RETURNING id", req.params)
+    .then((data) => {
+      returnDataOr404(res, data);
+    })
+    .catch((err) => {
+      next(err);
+    });
 }
