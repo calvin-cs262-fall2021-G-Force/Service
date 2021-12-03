@@ -38,7 +38,7 @@ CREATE TABLE Post (
 );
 
 CREATE TABLE EventAttendee (
-	postID int,
+	postID SERIAL,
 	FOREIGN KEY (postID) REFERENCES Post(ID),
 	studentEmail varchar(30),
 	FOREIGN KEY (studentEmail) REFERENCES Student(email)
