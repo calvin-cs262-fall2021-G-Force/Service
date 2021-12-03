@@ -44,7 +44,7 @@ router.get("/students", readStudents);
 router.get("/students/:email", readStudent);
 router.get("/restaurants", readRestaurants);
 router.post("/events/:postid", createAttendee);
-router.get("/events/:postid", readAttendees);
+router.get("/events/:studentemail", readAttendees);
 // router.put("/players/:id", updatePlayer);
 // router.post('/players', createPlayer);
 router.delete("/posts/:id", deletePost);
@@ -123,7 +123,7 @@ function createAttendee(req, res, next) {
 }
 
 function readAttendees(req, res, next) {
-  db.oneOrNone("SELECT * FROM EventAttendee WHERE postid=${postid}", req.params)
+  db.oneOrNone("SELECT * FROM EventAttendee WHERE studentemail=${studentemail}", req.params)
     .then((data) => {
       returnDataOr404(res, data);
     })
