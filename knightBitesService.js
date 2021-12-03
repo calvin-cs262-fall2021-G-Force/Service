@@ -49,6 +49,8 @@ router.get("/attendees/:postid", readAttendees);
 // router.post('/players', createPlayer);
 router.delete("/posts/:id", deletePost);
 
+router.get("/events", readEvents);
+
 app.use(router);
 app.use(errorHandler);
 app.listen(port, () => console.log(`Listening on port ${port}`));
@@ -124,6 +126,16 @@ function readAttendees(req, res, next) {
   db.oneOrNone("SELECT * FROM EventAttendee WHERE postid=${postid}", req.params)
     .then((data) => {
       returnDataOr404(res, data);
+    })
+    .catch((err) => {
+      next(err);
+    });
+}
+
+function readEvents(req, res, next) {
+  db.many("SELECT * FROM EventAttendee ORDER BY postID")
+    .then((data) => {
+      res.send(data);
     })
     .catch((err) => {
       next(err);
