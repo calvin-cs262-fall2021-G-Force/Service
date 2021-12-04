@@ -123,7 +123,10 @@ function createAttendee(req, res, next) {
 }
 
 function readAttendees(req, res, next) {
-  db.many("SELECT * FROM EventAttendee WHERE postid = ${postid}", req.params)
+  db.many(
+    "SELECT firstname, lastname FROM EventAttendee, Student WHERE EventAttendee.studentEmail=Student.email AND postid = ${postid}",
+    req.params
+  )
     .then((data) => {
       res.send(data);
     })
