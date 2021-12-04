@@ -44,7 +44,7 @@ router.get("/students", readStudents);
 router.get("/students/:email", readStudent);
 router.get("/restaurants", readRestaurants);
 router.get("/events", readEvents);
-// router.post("/attendees/:postid", createAttendee);
+router.post("/attendees/:postid", createAttendee);
 router.get("/attendees/:postid", readAttendees);
 // router.put("/players/:id", updatePlayer);
 // router.post('/players', createPlayer);
@@ -122,7 +122,7 @@ function createAttendee(req, res, next) {
 }
 
 function readAttendees(req, res, next) {
-  db.many(
+  db.manyOrNone(
     "SELECT postid, studentEmail, firstname, lastname FROM EventAttendee, Student WHERE EventAttendee.studentEmail=Student.email AND postid = ${postid}",
     req.params
   )
