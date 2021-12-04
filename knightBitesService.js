@@ -43,7 +43,7 @@ router.post("/posts", createPost);
 router.get("/students", readStudents);
 router.get("/students/:email", readStudent);
 router.get("/restaurants", readRestaurants);
-//router.post("/event-attendee/:postid", createAttendee);
+router.post("/event-attendee/:postid", createAttendee);
 router.get("/event-attendee/:postid", readAttendees);
 // router.put("/players/:id", updatePlayer);
 // router.post('/players', createPlayer);
@@ -109,18 +109,18 @@ function createPost(req, res, next) {
     });
 }
 
-// function createAttendee(req, res, next) {
-//   db.one(
-//     "INSERT INTO EventAttendee(postid, studentEmail) VALUES (${postid}, ${studentemail}) RETURNING studentemail",
-//     req.body
-//   )
-//     .then((data) => {
-//       res.send(data);
-//     })
-//     .catch((err) => {
-//       next(err);
-//     });
-// }
+function createAttendee(req, res, next) {
+  db.one(
+    "INSERT INTO EventAttendee(postid, studentEmail) VALUES (${postid}, ${studentemail}) RETURNING studentemail",
+    req.body
+  )
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
+}
 
 function readAttendees(req, res, next) {
   db.many("SELECT * FROM EventAttendee WHERE postid = ${postid}", req.params)
