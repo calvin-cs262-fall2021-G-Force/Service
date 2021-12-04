@@ -43,13 +43,12 @@ router.post("/posts", createPost);
 router.get("/students", readStudents);
 router.get("/students/:email", readStudent);
 router.get("/restaurants", readRestaurants);
-router.post("/event-attendee/:postid", createAttendee);
-router.get("/event-attendee/:postid", readAttendees);
+router.get("/events", readEvents);
+router.post("/attendee/:postid", createAttendee);
+router.get("/attendee/:postid", readAttendees);
 // router.put("/players/:id", updatePlayer);
 // router.post('/players', createPlayer);
 router.delete("/posts/:id", deletePost);
-
-router.get("/events", readEvents);
 
 app.use(router);
 app.use(errorHandler);
