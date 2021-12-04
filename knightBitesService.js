@@ -110,7 +110,7 @@ function createPost(req, res, next) {
 
 function createAttendee(req, res, next) {
   db.one(
-    "INSERT INTO EventAttendee(postid, studentEmail) VALUES (${postid}, ${studentemail}) RETURNING studentemail",
+    "INSERT INTO EventAttendee(postid, studentEmail) VALUES (${postid}, ${studentemail})",
     req.body
   )
     .then((data) => {
