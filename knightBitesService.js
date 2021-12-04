@@ -123,7 +123,10 @@ function createPost(req, res, next) {
 // }
 
 function readAttendees(req, res, next) {
-  db.oneOrNone("SELECT * FROM EventAttendee WHERE postid = 1", req.params)
+  db.oneOrNone(
+    "SELECT * FROM EventAttendee WHERE postid = ${postid}",
+    req.params
+  )
     .then((data) => {
       returnDataOr404(res, data);
     })
@@ -133,7 +136,7 @@ function readAttendees(req, res, next) {
 }
 
 function readEvents(req, res, next) {
-  db.many("SELECT * FROM EventAttendee ORDER BY postID")
+  db.many("SELECT * FROM EventAttendee WHERE postID=1")
     .then((data) => {
       res.send(data);
     })
