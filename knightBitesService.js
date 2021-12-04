@@ -125,7 +125,7 @@ function createPost(req, res, next) {
 function readAttendees(req, res, next) {
   db.many("SELECT * FROM EventAttendee WHERE postid = ${postid}", req.params)
     .then((data) => {
-      returnDataOr404(res, data);
+      res.send(data);
     })
     .catch((err) => {
       next(err);
