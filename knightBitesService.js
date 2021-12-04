@@ -123,10 +123,7 @@ function createPost(req, res, next) {
 // }
 
 function readAttendees(req, res, next) {
-  db.oneOrNone(
-    "SELECT * FROM EventAttendee WHERE postid = ${postid}",
-    req.params
-  )
+  db.oneOrNone("SELECT * FROM EventAttendee WHERE postid = 1", req.params)
     .then((data) => {
       returnDataOr404(res, data);
     })
