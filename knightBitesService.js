@@ -110,7 +110,7 @@ function readPost(req, res, next) {
 
 function createPost(req, res, next) {
   db.one(
-    "INSERT INTO Post(postTitle, post, postTime, studentEmail) VALUES (${posttitle}, ${post}, ${posttime}, ${studentemail}) RETURNING studentemail",
+    "INSERT INTO Post(postTitle, post, postTime, meetupTime, studentEmail, restaurantID) VALUES (${posttitle}, ${post}, ${posttime}, ${meetuptime}, ${studentemail}, ${restaurantid}) RETURNING studentemail",
     req.body
   )
     .then((data) => {
