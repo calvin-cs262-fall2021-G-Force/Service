@@ -16,7 +16,7 @@ CREATE TABLE Student (
 	);
 
 CREATE TABLE Restaurant (
-	ID SERIAL PRIMARY KEY,
+	ID int PRIMARY KEY,
 	name varchar(50),
 	address varchar (60) NOT NULL,
 	openingTime time,
@@ -75,6 +75,8 @@ INSERT INTO Restaurant VALUES (17, 'Bitter End Coffeehouse', '752 Fulton St W, G
 
 INSERT INTO Post VALUES (1, 'bw12', 1 , 'Wanna have lunch at Johnny''s?','I am going to Johnny''s with my friends in a bit. You can join if you want to','2021-10-31 10:23:54', '2021-11-02 10:30');
 INSERT INTO Post VALUES (2, 'ck23', 2 , 'Lunch at Culvers','I need to get coffee NOW! Anybody wanna join me?','2021-10-28 10:30', '2021-10-31 12:25');
+INSERT INTO Post(studentemail, restaurantid, posttitle, post, posttime, meetuptime) Values('bw12', 4, 'Me Hungry', 'need fooood', '2021-12-04 09:29:35 +0000', '2021-12-24 10:25:00 +0000');
+INSERT INTO Post(studentemail, restaurantid, posttitle, post, posttime, meetuptime) Values('dp34', 2, 'Let''s get COFFEE', 'Really need coffee asap', '2021-12-06 08:24:35 +0000', '2021-12-30 12:25:00 +0000');
 
 INSERT INTO EventAttendee VALUES (1, 'ck23');
 INSERT INTO EventAttendee VALUES (1, 'dp34');
