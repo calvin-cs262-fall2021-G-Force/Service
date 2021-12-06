@@ -16,8 +16,8 @@ CREATE TABLE Student (
 	);
 
 CREATE TABLE Restaurant (
-	ID int PRIMARY KEY,
-	name varchar(50),
+	restaurantID int PRIMARY KEY,
+	restaurantName varchar(50),
 	address varchar (60) NOT NULL,
 	openingTime time,
 	closingTime time,
@@ -30,7 +30,7 @@ CREATE TABLE Post (
 	studentEmail varchar(30),
 	FOREIGN KEY (studentEmail) REFERENCES Student(email),
 	restaurantID int,
-	FOREIGN KEY (restaurantID) REFERENCES Restaurant(ID),
+	FOREIGN KEY (restaurantID) REFERENCES Restaurant(restaurantID),
 	postTitle varchar (30),
 	post varchar(150),
 	postTime timestamp,
