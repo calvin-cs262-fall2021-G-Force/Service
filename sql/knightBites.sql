@@ -16,8 +16,8 @@ CREATE TABLE Student (
 	);
 
 CREATE TABLE Restaurant (
-	ID SERIAL PRIMARY KEY,
-	name varchar(50),
+	restaurantID int PRIMARY KEY,
+	restaurantName varchar(50),
 	address varchar (60) NOT NULL,
 	openingTime time,
 	closingTime time,
@@ -30,7 +30,7 @@ CREATE TABLE Post (
 	studentEmail varchar(30),
 	FOREIGN KEY (studentEmail) REFERENCES Student(email),
 	restaurantID int,
-	FOREIGN KEY (restaurantID) REFERENCES Restaurant(ID),
+	FOREIGN KEY (restaurantID) REFERENCES Restaurant(restaurantID),
 	postTitle varchar (30),
 	post varchar(150),
 	postTime timestamp,
@@ -73,8 +73,10 @@ INSERT INTO Restaurant VALUES (15, 'Tallarico''s Boardwalk Subs', '3083 Broadmoo
 INSERT INTO Restaurant VALUES (16, 'Panda Express', '3170 28th St SE, Kentwood, MI 49508', '10:30', '21:00', 1, '20% off');
 INSERT INTO Restaurant VALUES (17, 'Bitter End Coffeehouse', '752 Fulton St W, Grand Rapids, MI 49504', '01:00', '24:00', 1, '10% off');
 
-INSERT INTO Post VALUES (1, 'bw12', 1 , 'Wanna have lunch at Johnny''s?','I am going to Johnny''s with my friends in a bit. You can join if you want to','2021-10-31 10:23:54', '2021-11-02 10:30');
-INSERT INTO Post VALUES (2, 'ck23', 2 , 'Lunch at Culvers','I need to get coffee NOW! Anybody wanna join me?','2021-10-28 10:30', '2021-10-31 12:25');
+INSERT INTO Post(studentemail, restaurantid, posttitle, post, posttime, meetuptime) VALUES ('bw12', 1 , 'Wanna have lunch at Johnny''s?','I am going to Johnny''s with my friends in a bit. You can join if you want to','2021-10-31 10:23:54', '2021-11-02 10:30');
+INSERT INTO Post(studentemail, restaurantid, posttitle, post, posttime, meetuptime) VALUES ('ck23', 2 , 'Lunch at Culvers','I need to get coffee NOW! Anybody wanna join me?','2021-10-28 10:30', '2021-10-31 12:25');
+INSERT INTO Post(studentemail, restaurantid, posttitle, post, posttime, meetuptime) Values('bw12', 4, 'Me Hungry', 'need fooood', '2021-12-04 09:29:35 +0000', '2021-12-24 10:25:00 +0000');
+INSERT INTO Post(studentemail, restaurantid, posttitle, post, posttime, meetuptime) Values('dp34', 2, 'Let''s get COFFEE', 'Really need coffee asap', '2021-12-06 08:24:35 +0000', '2021-12-30 12:25:00 +0000');
 
 INSERT INTO EventAttendee VALUES (1, 'ck23');
 INSERT INTO EventAttendee VALUES (1, 'dp34');
