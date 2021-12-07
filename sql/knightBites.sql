@@ -10,7 +10,7 @@ CREATE TABLE Student (
 	password varchar(50),
 	firstName varchar(50) NOT NULL,
 	lastName varchar(50),
-	year varchar(50),
+	collegeYear varchar(50),
 	bio varchar(150),
 	icon varchar(50)
 	);
@@ -28,7 +28,7 @@ CREATE TABLE Restaurant (
 CREATE TABLE Post (
 	ID SERIAL PRIMARY KEY,
 	studentEmail varchar(30),
-	FOREIGN KEY (studentEmail) REFERENCES Student(email),
+	FOREIGN KEY (studentEmail) REFERENCES Student(email) ON DELETE CASCADE,
 	restaurantID int,
 	FOREIGN KEY (restaurantID) REFERENCES Restaurant(restaurantID),
 	postTitle varchar (30),
@@ -39,9 +39,9 @@ CREATE TABLE Post (
 
 CREATE TABLE EventAttendee (
 	postID SERIAL,
-	FOREIGN KEY (postID) REFERENCES Post(ID),
+	FOREIGN KEY (postID) REFERENCES Post(ID) ON DELETE CASCADE,
 	studentEmail varchar(30),
-	FOREIGN KEY (studentEmail) REFERENCES Student(email)
+	FOREIGN KEY (studentEmail) REFERENCES Student(email) ON DELETE CASCADE
 );
 
 -- Allow Students to select data from the tables
@@ -51,9 +51,9 @@ GRANT SELECT ON Post TO PUBLIC;
 GRANT SELECT ON EventAttendee TO PUBLIC;
 
 -- Add sample records
-INSERT INTO Student VALUES ('bw12', 'pw12', 'Bruce', 'Wayne', 'Sophomore', 'I am vengance', 'bug-outline'); 
+INSERT INTO Student VALUES ('bw12', 'pw12', 'Bruce', 'Wayne', 'Sophomore', 'The Dark Knight Strikes Again', 'bug-outline'); 
 INSERT INTO Student VALUES ('ck23', 'pw23', 'Clark', 'Kent', 'Junior', 'Up, up, and away!', 'rocket-outline');
-INSERT INTO Student VALUES ('dp34', 'pw34', 'Diana', 'Prince', 'Senior','Fighting doesn''t make you a hero', 'pulse-outline');
+INSERT INTO Student VALUES ('dp34', 'pw34', 'Diana', 'Prince', 'Senior','Daughter of Zeus', 'pulse-outline');
 
 INSERT INTO Restaurant VALUES (1,'Uccello''s Ristorante', '2630 E Beltline Ave SE, Grand Rapids, MI 49546', '11:00', '23:00', 1, '15% off');
 INSERT INTO Restaurant VALUES (2, 'Anna''s House', '2409 E Beltline Ave SE, Grand Rapids, MI 49546', '06:00', '15:00', 1, '10% off till 2pm');
