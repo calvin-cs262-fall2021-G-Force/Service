@@ -7,7 +7,6 @@ DROP TABLE IF EXISTS EventAttendee CASCADE;
 -- Create the schema
 CREATE TABLE Student (
 	email varchar(30) PRIMARY KEY,
-	password varchar(50),
 	firstName varchar(50) NOT NULL,
 	lastName varchar(50),
 	collegeYear varchar(50),
@@ -51,9 +50,10 @@ GRANT SELECT ON Post TO PUBLIC;
 GRANT SELECT ON EventAttendee TO PUBLIC;
 
 -- Add sample records
-INSERT INTO Student VALUES ('bw12', 'pw12', 'Bruce', 'Wayne', 'Sophomore', 'The Dark Knight Strikes Again', 'bug-outline'); 
-INSERT INTO Student VALUES ('ck23', 'pw23', 'Clark', 'Kent', 'Junior', 'Up, up, and away!', 'rocket-outline');
-INSERT INTO Student VALUES ('dp34', 'pw34', 'Diana', 'Prince', 'Senior','Daughter of Zeus', 'pulse-outline');
+INSERT INTO Student VALUES ('bw12', 'Bruce', 'Wayne', 'Sophomore', 'The Dark Knight Strikes Again', 'bug-outline'); 
+INSERT INTO Student VALUES ('ck23', 'Clark', 'Kent', 'Junior', 'Up, up, and away!', 'rocket-outline');
+INSERT INTO Student VALUES ('dp34', 'Diana', 'Prince', 'Senior','Daughter of Zeus', 'pulse-outline');
+INSERT INTO Student VALUES ('aayam2071@gmail.com', 'Aayam', 'Shrestha', 'Junior', 'My mama always said life was like a box of chocolates. You never know what you''re gonna get.', 'skull-outline');
 
 INSERT INTO Restaurant VALUES (1,'Uccello''s Ristorante', '2630 E Beltline Ave SE, Grand Rapids, MI 49546', '11:00', '23:00', 1, '15% off');
 INSERT INTO Restaurant VALUES (2, 'Anna''s House', '2409 E Beltline Ave SE, Grand Rapids, MI 49546', '06:00', '15:00', 1, '10% off till 2pm');
