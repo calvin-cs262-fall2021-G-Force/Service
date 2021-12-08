@@ -1,8 +1,6 @@
 /**
- * This module implements a REST-inspired webservice for the Monopoly DB.
+ * This module implements a REST-inspired webservice for the Knight Bites App.
  * The database is hosted on ElephantSQL.
- *
- * Currently, the service supports the player table only.
  *
  * To guard against SQL injection attacks, this code uses pg-promise's built-in
  * variable escaping. This prevents a client from issuing this URL:
@@ -14,8 +12,8 @@
  * TODO: Consider using Prepared Statements.
  *      https://vitaly-t.github.io/pg-promise/PreparedStatement.html
  *
- * @author: kvlinden
- * @date: Summer, 2020
+ * @author: Knight Bites Team
+ * @date: Fall 2021
  */
 
 // Set up the database connection.
