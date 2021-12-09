@@ -1,5 +1,5 @@
 /**
- * This module implements direct, Android-to-Postgres access to the Monopoly DB.
+ * This module implements direct, Android-to-Postgres access to the Knight Bites App.
  * The database is hosted on ElephantSQL.
  *
  * Because the PGP connection variables are stored as Heroku config vars, store
@@ -9,8 +9,8 @@
  *
  *      heroku local direct
  *
- * @author: kvlinden
- * @date: Summer, 2020
+ * @author: Knight Bites Team
+ * @date: Fall 2021
  */
 
 // Set up the database connection.
