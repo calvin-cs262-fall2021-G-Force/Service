@@ -41,6 +41,7 @@ router.get("/posts/:id", readPost);
 router.post("/posts", createPost);
 router.get("/students", readStudents);
 router.get("/students/:email", readStudent);
+router.post("/students", createStudent);
 router.get("/restaurants", readRestaurants);
 router.get("/events", readEvents);
 router.post("/attendees/:postid", createAttendee);
@@ -109,6 +110,19 @@ function readPost(req, res, next) {
 function createPost(req, res, next) {
   db.one(
     "INSERT INTO Post(postTitle, post, postTime, meetupTime, studentEmail, restaurantID) VALUES (${posttitle}, ${post}, ${posttime}, ${meetuptime}, ${studentemail}, ${restaurantid}) RETURNING studentemail",
+    req.body
+  )
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
+}
+
+function createStudent(req, res, next) {
+  db.one(
+    "INSERT INTO Student(email, firstname, lastname, collegeyear, bio, icon) VALUES (${email}, ${firstname}, ${lastname}, ${collegeyear}, ${bio}, ${icon}) RETURNING email",
     req.body
   )
     .then((data) => {
