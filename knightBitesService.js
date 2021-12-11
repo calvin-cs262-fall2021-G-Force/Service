@@ -36,7 +36,7 @@ router.use(express.json());
 
 router.get("/", readHelloMessage);
 router.get("/posts", readPosts);
-router.get("/posts-details", readPostsDetails);
+router.get("/posts-details/:sort", readPostsDetails);
 router.get("/posts/:id", readPost);
 router.post("/posts", createPost);
 router.get("/students", readStudents);
