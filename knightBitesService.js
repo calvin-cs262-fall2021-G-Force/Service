@@ -47,7 +47,7 @@ router.get("/restaurants", readRestaurants);
 router.get("/events", readEvents);
 router.post("/attendees/:postid", createAttendee);
 router.get("/attendees/:postid", readAttendees);
-// router.put("/players/:id", updatePlayer);
+router.put("/students/:id", updateStudent);
 // router.post('/players', createPlayer);
 router.delete("/posts/:id", deletePost);
 
@@ -212,9 +212,9 @@ function readStudent(req, res, next) {
     });
 }
 
-function updatePlayer(req, res, next) {
+function updateStudent(req, res, next) {
   db.oneOrNone(
-    "UPDATE Player SET email=${body.email}, name=${body.name} WHERE id=${params.id} RETURNING id",
+    "UPDATE student SET firstname=${body.firstname}, lastname=${body.firstname},collegeyear=${body.collegeyear}, bio=${body.bio} WHERE email={params.email} RETURNING email",
     req
   )
     .then((data) => {
