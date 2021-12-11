@@ -100,7 +100,7 @@ function readPostsPostTime(req, res, next) {
 
 function readPostsMeetUpTime(req, res, next) {
   db.manyOrNone(
-    "SELECT * FROM Post, Student, Restaurant WHERE Post.studentEmail = Student.email AND Post.restaurantId = Restaurant.restaurantID ORDER BY meetuptime DESC"
+    "SELECT * FROM Post, Student, Restaurant WHERE Post.studentEmail = Student.email AND Post.restaurantId = Restaurant.restaurantID ORDER BY meetuptime ASC"
   )
     .then((data) => {
       res.send(data);
