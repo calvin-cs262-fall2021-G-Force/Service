@@ -193,7 +193,7 @@ function readStudents(req, res, next) {
 }
 
 function readRestaurants(req, res, next) {
-  db.many("SELECT * FROM Restaurant")
+  db.many("SELECT * FROM Restaurant ORDER BY restaurantname ASC")
     .then((data) => {
       res.send(data);
     })
