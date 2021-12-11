@@ -47,7 +47,7 @@ router.get("/restaurants", readRestaurants);
 router.get("/events", readEvents);
 router.post("/attendees/:postid", createAttendee);
 router.get("/attendees/:postid", readAttendees);
-router.put("/students/:id", updateStudent);
+router.put("/students/:email", updateStudent);
 // router.post('/players', createPlayer);
 router.delete("/posts/:id", deletePost);
 
