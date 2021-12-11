@@ -87,7 +87,8 @@ function readPosts(req, res, next) {
 
 function readPostsDetails(req, res, next) {
   db.manyOrNone(
-    "SELECT * FROM Post, Student, Restaurant WHERE Post.studentEmail = Student.email AND Post.restaurantId = Restaurant.restaurantID ORDER BY ${sort}} DESC",req.params
+    "SELECT * FROM Post, Student, Restaurant WHERE Post.studentEmail = Student.email AND Post.restaurantId = Restaurant.restaurantID ORDER BY ${sort} DESC",
+    req.params
   )
     .then((data) => {
       res.send(data);
