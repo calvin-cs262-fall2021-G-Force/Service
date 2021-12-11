@@ -1,8 +1,6 @@
 /**
- * This module implements a REST-inspired webservice for the Monopoly DB.
+ * This module implements a REST-inspired webservice for the Knight Bites App.
  * The database is hosted on ElephantSQL.
- *
- * Currently, the service supports the player table only.
  *
  * To guard against SQL injection attacks, this code uses pg-promise's built-in
  * variable escaping. This prevents a client from issuing this URL:
@@ -14,8 +12,8 @@
  * TODO: Consider using Prepared Statements.
  *      https://vitaly-t.github.io/pg-promise/PreparedStatement.html
  *
- * @author: kvlinden
- * @date: Summer, 2020
+ * @author: Knight Bites Team
+ * @date: Fall 2021
  */
 
 // Set up the database connection.
@@ -43,6 +41,7 @@ router.get("/posts/:id", readPost);
 router.post("/posts", createPost);
 router.get("/students", readStudents);
 router.get("/students/:email", readStudent);
+router.post("/students", createStudent);
 router.get("/restaurants", readRestaurants);
 router.get("/events", readEvents);
 router.post("/attendees/:postid", createAttendee);
@@ -111,6 +110,19 @@ function readPost(req, res, next) {
 function createPost(req, res, next) {
   db.one(
     "INSERT INTO Post(postTitle, post, postTime, meetupTime, studentEmail, restaurantID) VALUES (${posttitle}, ${post}, ${posttime}, ${meetuptime}, ${studentemail}, ${restaurantid}) RETURNING studentemail",
+    req.body
+  )
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
+}
+
+function createStudent(req, res, next) {
+  db.one(
+    "INSERT INTO Student(email, firstname, lastname, collegeyear, bio, icon) VALUES (${email}, ${firstname}, ${lastname}, ${collegeyear}, ${bio}, ${icon}) RETURNING email",
     req.body
   )
     .then((data) => {
