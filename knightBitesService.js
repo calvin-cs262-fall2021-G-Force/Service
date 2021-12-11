@@ -36,7 +36,8 @@ router.use(express.json());
 
 router.get("/", readHelloMessage);
 router.get("/posts", readPosts);
-router.get("/posts-details/:sort", readPostsDetails);
+router.get("/posts-details/posttime", readPostsPostTime);
+router.get("/posts-details/meetuptime", readPostsMeetUpTime);
 router.get("/posts/:id", readPost);
 router.post("/posts", createPost);
 router.get("/students", readStudents);
@@ -85,10 +86,21 @@ function readPosts(req, res, next) {
     });
 }
 
-function readPostsDetails(req, res, next) {
+function readPostsPostTime(req, res, next) {
   db.manyOrNone(
-    "SELECT * FROM Post, Student, Restaurant WHERE Post.studentEmail = Student.email AND Post.restaurantId = Restaurant.restaurantID ORDER BY $sort DESC",
-    req.params
+    "SELECT * FROM Post, Student, Restaurant WHERE Post.studentEmail = Student.email AND Post.restaurantId = Restaurant.restaurantID ORDER BY posttime DESC"
+  )
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
+}
+
+function readPostsMeetUpTime(req, res, next) {
+  db.manyOrNone(
+    "SELECT * FROM Post, Student, Restaurant WHERE Post.studentEmail = Student.email AND Post.restaurantId = Restaurant.restaurantID ORDER BY meetuptime DESC"
   )
     .then((data) => {
       res.send(data);
