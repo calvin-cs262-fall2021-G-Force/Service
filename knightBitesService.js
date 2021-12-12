@@ -214,7 +214,7 @@ function readStudent(req, res, next) {
 
 function updateStudent(req, res, next) {
   db.oneOrNone(
-    "UPDATE student SET firstname=${body.firstname}, lastname=${body.firstname},collegeyear=${body.collegeyear}, bio=${body.bio} WHERE email={params.email} RETURNING email",
+    "UPDATE student SET firstname=${body.firstname}, lastname=${body.firstname},collegeyear=${body.collegeyear}, bio=${body.bio} WHERE email=${params.email} RETURNING email",
     req
   )
     .then((data) => {
