@@ -39,7 +39,7 @@ router.get("/posts", readPosts);
 router.get("/posts-details/posttime", readPostsPostTime);
 router.get("/posts-details/meetuptime", readPostsMeetUpTime);
 router.get("/posts/:id", readPost);
-router.get("/posts/:studentemail", readStudentPosts);
+router.get("/studentposts/:studentemail", readStudentPosts);
 router.post("/posts", createPost);
 router.get("/students", readStudents);
 router.get("/students/:email", readStudent);
@@ -50,7 +50,6 @@ router.get("/events", readEvents);
 router.post("/attendees/:postid", createAttendee);
 router.get("/attendees/:postid", readAttendees);
 router.put("/students/:email", updateStudent);
-// router.post('/players', createPlayer);
 router.delete("/posts/:id", deletePost);
 
 app.use(router);
