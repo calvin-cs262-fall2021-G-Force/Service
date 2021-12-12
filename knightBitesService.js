@@ -214,7 +214,7 @@ function readStudent(req, res, next) {
 }
 
 function readIsAttending(req, res, next) {
-  db.oneOrNone(
+  db.one(
     "SELECT Count(postid) FROM EventAttendee WHERE postid=${postid} AND studentemail=${studentemail}",
     req.params
   )
