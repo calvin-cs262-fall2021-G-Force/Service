@@ -41,6 +41,7 @@ router.get("/posts/:id", readPost);
 router.post("/posts", createPost);
 router.get("/students", readStudents);
 router.get("/students/:email", readStudent);
+router.get("/attendees/:postid/:studentemail", readIsAttending);
 router.post("/students", createStudent);
 router.get("/restaurants", readRestaurants);
 router.get("/events", readEvents);
@@ -191,6 +192,19 @@ function readRestaurants(req, res, next) {
 
 function readStudent(req, res, next) {
   db.oneOrNone("SELECT * FROM Student WHERE email=${email}", req.params)
+    .then((data) => {
+      returnDataOr404(res, data);
+    })
+    .catch((err) => {
+      next(err);
+    });
+}
+
+function readIsAttending(req, res, next) {
+  db.oneOrNone(
+    "SELECT Count(postid) FROM EventAttendee WHERE postid=${postid} AND studentemail=${studentemail}",
+    req.params
+  )
     .then((data) => {
       returnDataOr404(res, data);
     })
