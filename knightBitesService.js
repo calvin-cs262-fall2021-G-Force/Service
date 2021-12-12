@@ -36,7 +36,8 @@ router.use(express.json());
 
 router.get("/", readHelloMessage);
 router.get("/posts", readPosts);
-router.get("/posts-details", readPostsDetails);
+router.get("/posts-details/posttime", readPostsPostTime);
+router.get("/posts-details/meetuptime", readPostsMeetUpTime);
 router.get("/posts/:id", readPost);
 router.post("/posts", createPost);
 router.get("/students", readStudents);
@@ -47,7 +48,7 @@ router.get("/restaurants", readRestaurants);
 router.get("/events", readEvents);
 router.post("/attendees/:postid", createAttendee);
 router.get("/attendees/:postid", readAttendees);
-// router.put("/players/:id", updatePlayer);
+router.put("/students/:email", updateStudent);
 // router.post('/players', createPlayer);
 router.delete("/posts/:id", deletePost);
 
@@ -86,9 +87,21 @@ function readPosts(req, res, next) {
     });
 }
 
-function readPostsDetails(req, res, next) {
+function readPostsPostTime(req, res, next) {
   db.manyOrNone(
-    "SELECT * FROM Post, Student, Restaurant WHERE Post.studentEmail = Student.email AND Post.restaurantId = Restaurant.restaurantID ORDER BY postTime DESC"
+    "SELECT * FROM Post, Student, Restaurant WHERE Post.studentEmail = Student.email AND Post.restaurantId = Restaurant.restaurantID ORDER BY posttime DESC"
+  )
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
+}
+
+function readPostsMeetUpTime(req, res, next) {
+  db.manyOrNone(
+    "SELECT * FROM Post, Student, Restaurant WHERE Post.studentEmail = Student.email AND Post.restaurantId = Restaurant.restaurantID ORDER BY meetuptime ASC"
   )
     .then((data) => {
       res.send(data);
@@ -181,7 +194,7 @@ function readStudents(req, res, next) {
 }
 
 function readRestaurants(req, res, next) {
-  db.many("SELECT * FROM Restaurant")
+  db.many("SELECT * FROM Restaurant ORDER BY restaurantname ASC")
     .then((data) => {
       res.send(data);
     })
@@ -213,9 +226,9 @@ function readIsAttending(req, res, next) {
     });
 }
 
-function updatePlayer(req, res, next) {
+function updateStudent(req, res, next) {
   db.oneOrNone(
-    "UPDATE Player SET email=${body.email}, name=${body.name} WHERE id=${params.id} RETURNING id",
+    "UPDATE student SET firstname=${body.firstname}, lastname=${body.lastname},collegeyear=${body.collegeyear}, bio=${body.bio} WHERE email=${params.email} RETURNING email",
     req
   )
     .then((data) => {
