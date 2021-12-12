@@ -39,6 +39,7 @@ router.get("/posts", readPosts);
 router.get("/posts-details/posttime", readPostsPostTime);
 router.get("/posts-details/meetuptime", readPostsMeetUpTime);
 router.get("/posts/:id", readPost);
+router.get("/posts/:studentemail", readStudentPosts);
 router.post("/posts", createPost);
 router.get("/students", readStudents);
 router.get("/students/:email", readStudent);
@@ -163,6 +164,19 @@ function createAttendee(req, res, next) {
 function readAttendees(req, res, next) {
   db.manyOrNone(
     "SELECT postid, studentEmail, firstname, lastname FROM EventAttendee, Student WHERE EventAttendee.studentEmail=Student.email AND postid = ${postid}",
+    req.params
+  )
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
+}
+
+function readStudentPosts(req, res, next) {
+  db.manyOrNone(
+    "SELECT * FROM Post, Student, Restaurant WHERE Post.studentEmail = Student.email AND Post.restaurantId = Restaurant.restaurantID AND Student.email=${studentemail} ORDER BY posttime DESC",
     req.params
   )
     .then((data) => {
