@@ -27,7 +27,6 @@ const db = pgp({
 });
 
 // Configure the server and its routes.
-
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
@@ -35,22 +34,20 @@ const router = express.Router();
 router.use(express.json());
 
 router.get("/", readHelloMessage);
-router.get("/posts", readPosts);
-router.get("/posts-details/posttime", readPostsPostTime);
-router.get("/posts-details/meetuptime", readPostsMeetUpTime);
-router.get("/posts/:id", readPost);
-router.get("/studentposts/:studentemail", readStudentPosts);
-router.post("/posts", createPost);
-router.get("/students", readStudents);
-router.get("/students/:email", readStudent);
-router.get("/attendees/:postid/:studentemail", readIsAttending);
-router.post("/students", createStudent);
-router.get("/restaurants", readRestaurants);
-router.get("/events", readEvents);
-router.post("/attendees/:postid", createAttendee);
-router.get("/attendees/:postid", readAttendees);
-router.put("/students/:email", updateStudent);
-router.delete("/posts/:id", deletePost);
+router.get("/posts", readPosts); // Reads all the posts in the database in decsending order by posttime
+router.get("/posts-details/posttime", readPostsPostTime); // Reads all the details about each post(information about post, restaurant, poster) in the database ordered by posttime
+router.get("/posts/:id", readPost); //Reads all the information about a specific post
+router.get("/posts-details/meetuptime", readPostsMeetUpTime); // Reads all the details about each post(information about post, restaurant, poster) in the database ordered by meetup time
+router.get("/studentposts/:studentemail", readStudentPosts); //Reads all the posts made by a specific student
+router.get("/students", readStudents); // Reads the list of all students
+router.get("/restaurants", readRestaurants); // Reads the list of all restaurants
+router.get("/students/:email", readStudent); //Reads information about a specific student
+router.get("/attendees/:postid", readAttendees); // Reads the students that are attending a specific event(represented by the postid)
+router.post("/posts", createPost); // Creates a post
+router.post("/students", createStudent); // Creates a student
+router.post("/attendees/:postid", createAttendee); // Creates a new record in the attendees table with a postid and a studentemail
+router.put("/students/:email", updateStudent); // Updates information about a specific student (represented by the email)
+router.delete("/posts/:id", deletePost); // Deletes a specific post
 
 app.use(router);
 app.use(errorHandler);
@@ -73,10 +70,12 @@ function returnDataOr404(res, data) {
   }
 }
 
+// Returns a hello message
 function readHelloMessage(req, res) {
   res.send("Hello, Knights! Welcome to Knight Bites!");
 }
 
+// Returns all the posts in the Post table
 function readPosts(req, res, next) {
   db.manyOrNone("SELECT * FROM Post ORDER BY posttime DESC")
     .then((data) => {
@@ -87,6 +86,7 @@ function readPosts(req, res, next) {
     });
 }
 
+// Returns all the posts in the Post table alond with the related student information and restaurant information for each post sorted by post time
 function readPostsPostTime(req, res, next) {
   db.manyOrNone(
     "SELECT * FROM Post, Student, Restaurant WHERE Post.studentEmail = Student.email AND Post.restaurantId = Restaurant.restaurantID ORDER BY posttime DESC"
@@ -99,6 +99,7 @@ function readPostsPostTime(req, res, next) {
     });
 }
 
+// Returns all the posts in the Post table alond with the related student information and restaurant information for each post sorted by meetup time
 function readPostsMeetUpTime(req, res, next) {
   db.manyOrNone(
     "SELECT * FROM Post, Student, Restaurant WHERE Post.studentEmail = Student.email AND Post.restaurantId = Restaurant.restaurantID ORDER BY meetuptime ASC"
@@ -111,6 +112,7 @@ function readPostsMeetUpTime(req, res, next) {
     });
 }
 
+// Takes in a post id and returns that post
 function readPost(req, res, next) {
   db.oneOrNone("SELECT * FROM Post WHERE id=${id}", req.params)
     .then((data) => {
@@ -121,6 +123,7 @@ function readPost(req, res, next) {
     });
 }
 
+// Takes in the post title, post time, meetup time, student's email, and restaurant id, and creates a new post in the Post table
 function createPost(req, res, next) {
   db.one(
     "INSERT INTO Post(postTitle, post, postTime, meetupTime, studentEmail, restaurantID) VALUES (${posttitle}, ${post}, ${posttime}, ${meetuptime}, ${studentemail}, ${restaurantid}) RETURNING studentemail",
@@ -134,6 +137,7 @@ function createPost(req, res, next) {
     });
 }
 
+// Takes in a student's email, firstname, lastname, year in college, bio, and profile icon name, and creates a new record in the Student table
 function createStudent(req, res, next) {
   db.one(
     "INSERT INTO Student(email, firstname, lastname, collegeyear, bio, icon) VALUES (${email}, ${firstname}, ${lastname}, ${collegeyear}, ${bio}, ${icon}) RETURNING email",
@@ -147,6 +151,7 @@ function createStudent(req, res, next) {
     });
 }
 
+// Takes in a postid and studentemail and creates a new record in the EventAttendee table
 function createAttendee(req, res, next) {
   db.one(
     "INSERT INTO EventAttendee(postid, studentEmail) VALUES (${postid}, ${studentemail}) RETURNING postid",
@@ -160,6 +165,7 @@ function createAttendee(req, res, next) {
     });
 }
 
+// Takes in a post id and returns all the students signed up to that post
 function readAttendees(req, res, next) {
   db.manyOrNone(
     "SELECT postid, studentEmail, firstname, lastname FROM EventAttendee, Student WHERE EventAttendee.studentEmail=Student.email AND postid = ${postid}",
@@ -173,6 +179,7 @@ function readAttendees(req, res, next) {
     });
 }
 
+// Takes in a student email and returns all the posts made by that student
 function readStudentPosts(req, res, next) {
   db.manyOrNone(
     "SELECT * FROM Post, Student, Restaurant WHERE Post.studentEmail = Student.email AND Post.restaurantId = Restaurant.restaurantID AND Student.email=${studentemail} ORDER BY posttime DESC",
@@ -186,16 +193,7 @@ function readStudentPosts(req, res, next) {
     });
 }
 
-function readEvents(req, res, next) {
-  db.many("SELECT * FROM EventAttendee ORDER BY postID")
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      next(err);
-    });
-}
-
+//Reads all the records in the Student table
 function readStudents(req, res, next) {
   db.many("SELECT * FROM Student")
     .then((data) => {
@@ -206,6 +204,7 @@ function readStudents(req, res, next) {
     });
 }
 
+// Returns all the records in the Restaurant table in ascending order by name
 function readRestaurants(req, res, next) {
   db.many("SELECT * FROM Restaurant ORDER BY restaurantname ASC")
     .then((data) => {
@@ -216,6 +215,7 @@ function readRestaurants(req, res, next) {
     });
 }
 
+// Takes in a student email and returns the student's record from the Student table
 function readStudent(req, res, next) {
   db.oneOrNone("SELECT * FROM Student WHERE email=${email}", req.params)
     .then((data) => {
@@ -226,19 +226,7 @@ function readStudent(req, res, next) {
     });
 }
 
-function readIsAttending(req, res, next) {
-  db.one(
-    "SELECT Count(postid) FROM EventAttendee WHERE postid=${postid} AND studentemail=${studentemail}",
-    req.params
-  )
-    .then((data) => {
-      returnDataOr404(res, data);
-    })
-    .catch((err) => {
-      next(err);
-    });
-}
-
+// Takes in student email and updates the record in the Student table
 function updateStudent(req, res, next) {
   db.oneOrNone(
     "UPDATE student SET firstname=${body.firstname}, lastname=${body.lastname},collegeyear=${body.collegeyear}, bio=${body.bio} WHERE email=${params.email} RETURNING email",
@@ -252,19 +240,7 @@ function updateStudent(req, res, next) {
     });
 }
 
-function createPlayer(req, res, next) {
-  db.one(
-    "INSERT INTO Player(email, name) VALUES (${email}, ${name}) RETURNING id",
-    req.body
-  )
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      next(err);
-    });
-}
-
+// Takes in a postid and deletes the post fromt the Post table
 function deletePost(req, res, next) {
   db.oneOrNone("DELETE FROM Post WHERE id=${id} RETURNING id", req.params)
     .then((data) => {
